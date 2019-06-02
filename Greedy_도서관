@@ -1,0 +1,70 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+const int M=(int)1e4 + 5;
+
+int n;
+int emp,dur;//empty , during
+int Maxemp,Maxdur;
+int lval,rval;
+
+
+
+struct Data {
+    int s,e;
+};
+Data t[M];
+bool cmp(const Data &a,const Data &b) {
+    if(a.s!=b.s) return a.s<b.s;
+    return a.e<b.e;
+}
+
+void view()
+{
+    int i,j;
+    puts("");
+    printf("emp=%d dur=%d lval=%d rval=%d Maxemp=%d Maxdur=%d\n",emp,dur,lval,rval,Maxemp,Maxdur);
+    puts("");
+}
+
+void greedy() {
+    int i;
+    for(i=0; i<n; i++) {
+
+        if(rval>=t[i].s) {
+            dur=t[i].e-lval;
+            rval=max(t[i].e,rval);
+            Maxdur=max(dur,Maxdur);
+        } else {
+            emp=t[i].s-rval;
+            rval=t[i].e;
+            lval=t[i].s;
+            Maxemp=max(emp,Maxemp);
+        }
+ //   view();
+    }
+
+}
+
+int main() {
+    int i;
+    scanf("%d",&n);
+    for(i=0; i<n; i++) {
+        scanf("%d %d",&t[i].s,&t[i].e);
+    }
+
+    sort(t,t+n,cmp);
+     lval=t[0].s;
+    rval=t[0].e;/*
+    puts("");
+    for(i=0;i<n;i++)
+    {
+        printf("%d: %d %d\n",i,t[i].s,t[i].e);
+    }
+    puts("");*/
+    greedy();
+    printf("%d %d",Maxdur,Maxemp);
+
+    return 0;
+}
