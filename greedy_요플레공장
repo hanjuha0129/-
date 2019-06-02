@@ -1,0 +1,37 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+const int M=10005;
+
+int n,s;
+int c[M],y[M];
+long long int ans;
+int price=5000;
+
+void greedy(){
+    int i;
+    for(i=0;i<n;i++)
+    {
+        price+=s;
+        if(price>c[i]){
+            price=c[i];
+        }
+        ans+= y[i]*price;
+    }
+
+    printf("%lld",ans);
+}
+
+int main()
+{
+    int i;
+    scanf("%d %d",&n,&s);
+    for(i=0;i<n;i++){
+        scanf("%d %d",&c[i],&y[i]);
+    }
+    greedy();
+
+
+    return 0;
+}
