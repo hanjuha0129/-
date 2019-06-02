@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+const int M=1e5+5;
+
+int n;
+int cnt=1;
+
+struct Data{
+    int s,e;///꽃이 피는 월 , 일, 지는 월, 일
+};
+
+Data a[M];
+
+bool cmp(const Data&a,const Data&b){
+    return a.s<b.s;
+}
+
+void greedy(){
+    int i, s=301, e=301;
+    for(i=0;i<n;i++)
+    {
+        if(a[i].e<=e) continue;
+        if(a[i].s>e) break;
+        if(a[i].s>s) s=e, cnt++;
+        e=a[i].e;
+        if(e>1130) break;
+    }
+    if(e<1201) puts("0");
+    else printf("%d",cnt);
+}
+
+int main()
+{
+    int i,sm,sd,em,ed;
+
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf("%d %d %d %d",&sm,&sd,&em,&ed);
+        a[i]={sm*100+sd,em*100+ed};
+    }
+    sort(a,a+n,cmp);
+    greedy();
+
+    return 0;
+}
