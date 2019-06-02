@@ -1,0 +1,16 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+const int M=1e4+5;
+
+int n,c;
+int m;
+
+int main()
+{
+    scanf("%d %d",&n,&c);
+    scanf("%d",&m);
+    
+    return 0;
+}
