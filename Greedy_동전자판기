@@ -1,0 +1,39 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int w;
+int won[6]={1,5,10,50,100,500};
+int mcnt[6];//최대 개수
+int rcnt[6];//반대로 사용 개수
+int msum; // 최대 합
+int rsum;//반대로 구한 것
+int ans;
+
+int main()
+{
+    int i,k;
+    scanf("%d",&w);
+
+    for(i=5;i>=0;i--)
+    {
+        scanf("%d",&mcnt[i]);
+        msum+=mcnt[i]*won[i];
+    }
+    rsum=msum-w;
+    for(i=5;i>=0;i--){
+        rcnt[i]=min(mcnt[i],rsum/won[i]);
+        rsum=rsum-rcnt[i]*won[i];
+    }
+
+    for(i=5;i>=0;i--){
+        ans+=mcnt[i]-rcnt[i];
+    }
+
+    printf("%d\n",ans);
+    for(i=5;i>=0;i--){
+        printf("%d ",mcnt[i]-rcnt[i]);
+    }
+
+    return 0;
+}
