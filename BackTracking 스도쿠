@@ -1,0 +1,61 @@
+//BackTracking 1824 스도쿠
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int a[10][10];
+
+int row[10][10];
+int col[10][10];
+int loc[10][10];
+
+
+
+void output(){
+    int j;
+    for(int i=0;i<9;i++){
+        for(j=0;j<9;j++){
+            printf("%d ",a[i][j]);
+        }
+        puts("");
+    }
+}
+
+int back_tracking(int step){
+//    view();
+    if(step>80){
+        output();
+        return 1;
+    }
+    int i=step/9,j=step%9;
+    if(a[i][j]) return back_tracking(step+1);
+    for(int k=1;k<=9;k++){
+        if(row[i][k]+col[j][k]+loc[i/3*3+j/3][k]==0){
+            a[i][j]=k;
+            row[i][k]=col[j][k]=loc[i/3*3+j/3][k]=1;
+            if(back_tracking(step+1)){
+                return 1;
+            }
+            a[i][j]=0;
+            row[i][k]=col[j][k]=loc[i/3*3+j/3][k]=0;
+        }
+    }
+    return 0;
+}
+
+int main()
+{
+    int i,j;
+    for(i=0;i<9;i++){
+        for(j=0;j<9;j++){
+            scanf("%d",&a[i][j]);
+            if(a[i][j]){
+               row[i][a[i][j]]=col[j][a[i][j]]=loc[i/3*3+j/3][a[i][j]]=1;
+            }
+        }
+    }
+    back_tracking(0);
+
+
+    return 0;
+}
