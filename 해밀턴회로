@@ -1,0 +1,97 @@
+///#1681 해밀턴 회로
+#include <bits/stdc++.h>
+
+
+
+using namespace std;
+
+
+
+const int M=15;
+
+int n;
+
+int check[M];
+
+int ans=15000,sum;
+
+int cost[M][M];
+/*
+void view(){
+	for(int i=1;i<=n;i++){
+		printf("%d ",check[i]);
+	}printf("\n\n");
+
+}*/
+
+bool is_finish(){
+	for(int i=1;i<=n;i++){
+		if(check[i]==0) return 0;
+	}
+	return 1;
+
+}
+
+void bt(int i){
+
+    ///base condition
+
+    if(i==1&&is_finish()){
+
+        ans=sum;
+
+        return;
+
+    }
+
+    ///normal condition
+
+    for(int j=n;j>=1;j--){
+
+        if(check[j]||cost[i][j]==0||ans<=sum+cost[i][j]) continue;
+
+        sum+=cost[i][j]; check[j]=1;
+
+//		printf("\n\nsum=%d %d->%d\n",sum,i,j);
+//		view();
+        bt(j);
+
+        sum-=cost[i][j]; check[j]=0;
+
+    }
+
+}
+
+
+
+int main()
+
+{
+
+    int i,j;
+
+    scanf("%d",&n);
+
+    for(i=1;i<=n;i++)
+
+    {
+
+        for(j=1;j<=n;j++)
+
+        {
+
+            scanf("%d",&cost[i][j]);
+
+        }
+
+    }
+
+    bt(1);
+
+    printf("%d",ans);
+
+
+
+    return 0;
+
+}
