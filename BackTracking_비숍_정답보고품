@@ -1,0 +1,54 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int n;
+
+int a[11][11];
+int ld[21],rd[21];
+int Max;
+int ans;
+int cv[2][2]={{2,1},{1,2}};
+/*
+void view(int row,int col, int cnt, int flag){
+    printf("\n\nrow=%d col=%d cnt=%d flag=%d Max=%d\n\n",row,col,cnt,flag,Max);
+}*/
+
+void back_tracking(int row,int col,int cnt,int flag){
+//    view(row,col, cnt, flag);
+    Max=max(Max,cnt);
+    if(col>n){
+       row++;
+       col=cv[flag][row%2];
+    }
+    if(row>n){
+        return;
+    }
+    if(a[row][col]==1&&ld[n+row-col]+rd[row+col]==0){
+        ld[n+row-col]=rd[row+col]=1;
+        back_tracking(row,col+2,cnt+1,flag);
+        ld[n+row-col]=rd[row+col]=0;
+    }
+    back_tracking(row,col+2,cnt,flag);
+
+    return;
+}
+
+int main()
+{
+    int i,j;
+    scanf("%d",&n);
+    for(i=1;i<=n;i++){
+        for(j=1;j<=n;j++){
+            scanf("%d",&a[i][j]);
+        }
+    }
+    back_tracking(1,1,0,0);
+    ans=Max;
+    Max=0;
+    back_tracking(1,2,0,1);
+    ans+=Max;
+    printf("%d",ans);
+
+    return 0;
+}
