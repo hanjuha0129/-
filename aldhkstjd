@@ -1,0 +1,73 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+const int NM=105;
+
+int n,m,k;
+int a[NM][NM];
+int que[NM*NM];
+int dr[4]={1,-1,0,0};
+int dc[4]={0,0,1,-1};
+int ans;
+
+void view(){
+    int i,j;
+    puts("");
+    for(i=1;i<=m;i++){
+        for(j=1;j<=n;j++){
+            printf("%d ",a[i][j]);
+        }
+        puts("");
+    }
+    puts("");puts("");
+}
+
+void ffill(int row,int col,int cnt){
+    view();
+    a[row][col]=1;
+    que[cnt]++;
+    for(int i=0;i<4;i++){
+        if(a[row+dr[i]][col+dc[i]]==0){
+            ffill(row+dr[i],col+dc[i],cnt);
+        }
+    }
+}
+
+int main()
+{
+    int i,j,l,r1,c1,r2,c2;
+    int cnt=0;
+    scanf("%d %d %d",&m,&n,&k);
+    for(i=0;i<k;i++){
+        scanf("%d %d %d %d",&c1,&r1,&c2,&r2);
+        for(j=r1+1;j<=r2+1;j++){
+            for(l=c1+1;l<=c2+1;l++){
+                a[j][l]=1;
+            }
+        }
+
+    }
+    view();
+    for(i=0;i<=m+1;i++){
+        a[i][0]=a[i][n+1]=1;
+    }
+    for(j=0;j<=n+1;j++){
+        a[0][j]=a[m+1][j]=1;
+    }
+    for(i=1;i<=m;i++){
+        for(j=1;j<=n;j++){
+            if(a[i][j]==0){
+                cnt++;
+                ffill(i,j,cnt);
+            }
+        }
+    }
+
+    printf("%d\n",cnt);
+    for(i=1;i<=cnt;i++){
+            printf("%d\n",que[i]);
+    }
+
+    return 0;
+}
