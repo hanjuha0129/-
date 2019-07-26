@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+const int NM=55;
+
+struct Data{
+    int row,col,level;
+};
+
+int visit[NM][NM];
+int n,m;
+char a[NM][NM];
+int ans;
+queue <Data> que;
+int dr[4]={1,-1,0,0};
+int dc[4]={0,0,1,-1};
+
+void push(int r,int c,int lev){
+    if(r<0||r>=n||c<0||c>=m||visit[r][c] || a[r][c]=='W') return;
+    visit[r][c]=1;
+    que.push({r,c,lev});
+}
+
+void bfs(int r, int c){
+    memset(visit,0,sizeof(visit));
+    que.push({r,c,0});
+    Data tmp;
+    while(!que.empty()){
+        tmp=que.front();
+        que.pop();
+        for(int i=0;i<4;i++){
+            push(tmp.row+dr[i],tmp.col+dc[i],tmp.level+1);
+        }
+    }
+    ans=max(ans,tmp.level);
+}
+
+int main()
+{
+    scanf("%d %d",&n,&m);
+    for(int i=0;i<n;i++){
+        scanf("%s",a[i]);
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(a[i][j]=='L'){
+                bfs(i,j);
+            }
+        }
+    }
+    printf("%d",ans);
+
+    return 0;
+}
