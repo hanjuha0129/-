@@ -1,0 +1,50 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+const int MN=105;
+
+int n,m;
+int visit[MN][MN];
+
+struct Data{
+    int r,c,level;
+};
+queue <Data> que;
+
+int hr,hc;
+int pr,pc;
+int ans,cnt;
+int dr[8]={2,2,-2,-2,1,-1,1,-1};
+int dc[8]={1,-1,1,-1,2,2,-2,-2};
+
+void push(int r,int c, int lev){
+    if(r<1||r>n||c<1||c>m||visit[r][c]) return;
+    visit[r][c]=1;
+    que.push({r,c,lev});
+}
+
+int bfs(){
+    que.push({hr,hc,0});
+    while(!que.empty()){
+        Data tmp=que.front();
+        if(tmp.r==pr&&tmp.c==pc){
+            return tmp.level;
+        }
+        que.pop();
+        for(int i=0;i<8;i++){
+            push(tmp.r+dr[i],tmp.c+dc[i],tmp.level+1);
+        }
+    }
+    return 0;
+}
+
+int main()
+{
+    scanf("%d %d",&n,&m);
+    scanf("%d %d %d %d",&hr,&hc,&pr,&pc);
+    printf("%d",bfs());
+
+
+    return 0;
+}
