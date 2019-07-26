@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int n,l;
+int a[30];
+int o1,o2;//open 되어 있는 위치
+int ans=INT_MAX,cnt;
+
+void dfs(int o1,int o2,int depth){
+    if(depth>=l){
+        ans=min(ans,cnt);
+        return;
+    }
+    if(a[depth]<o1){
+        cnt+=o1-a[depth];
+        dfs(a[depth],o2,depth+1);
+        cnt-=o1-a[depth];
+    }
+    else if(a[depth]>o2){
+        cnt+=a[depth]-o2;
+        dfs(o1,a[depth],depth+1);
+        cnt-=a[depth]-o2;
+    }
+    else{
+        cnt+=a[depth]-o1;
+        dfs(a[depth],o2,depth+1);
+        cnt-=a[depth]-o1;
+
+        cnt+=o2-a[depth];
+        dfs(o1,a[depth],depth+1);
+        cnt-=o2-a[depth];
+    }
+}
+
+int main()
+{
+    scanf("%d",&n);
+    scanf("%d %d",&o1,&o2);
+    scanf("%d",&l);
+    if(o1>o2){o2=o1+o2;o1=o2-o1;o2=o2-o1;}
+    for(int i=0;i<l;i++){
+        scanf("%d",&a[i]);
+    }
+    dfs(o1,o2,0);
+    printf("%d",ans);
+
+    return 0;
+}
