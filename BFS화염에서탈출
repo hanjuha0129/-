@@ -1,0 +1,84 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+const int NM=55;
+
+struct Data{
+	int r,c,lev;
+};
+
+int N,M;
+int dr[4]={1,-1,0,0};
+int dc[4]={0,0,1,-1};
+
+char a[NM];
+int Map[NM][NM];
+
+queue <Data> que;
+int sr,sc,rr,cc;
+
+void view(){
+	puts("");
+	for(int i=0;i<N;i++){
+		for(int j=0;j<M;j++){
+			printf("%d ",Map[i][j]);
+		}
+		puts("");
+	}
+}
+
+void push(int r,int c,int lev){
+	if(r<0||r>=N||c<0||c>=M||Map[r][c]<=lev){
+		return;
+	}
+	Map[r][c]=lev;
+	que.push({r,c,lev});
+}
+
+void bfs(){
+	int i;
+	Data tmp;
+	while(!que.empty()){
+		//view();
+		tmp=que.front();
+		que.pop();
+		for(i=0;i<4;i++){
+			push(tmp.r+dr[i],tmp.c+dc[i],tmp.lev+1);
+		}
+	}
+}
+
+int main()
+{
+    scanf("%d %d",&N,&M);
+    for(int i=0;i<N;i++){
+		scanf("%s",a);
+		for(int j=0;j<M;j++){
+			Map[i][j]=987654321;
+			if(a[j]=='*'){
+				push(i,j,0);
+			}
+			else if(a[j]=='S'){
+				sr=i,sc=j;
+			}
+			else if(a[j]=='D'||a[j]=='X'){
+				Map[i][j]=-1;
+				if(a[j]=='D')rr=i,cc=j;
+			}
+		}
+    }
+    bfs();
+	Map[rr][cc]=987654321;
+	push(sr,sc,0);
+	bfs();
+	if(Map[rr][cc]==987654321){
+		printf("impossible");
+	}
+	else{
+		printf("%d",Map[rr][cc]);
+	}
+
+
+    return 0;
+}
