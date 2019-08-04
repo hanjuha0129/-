@@ -1,0 +1,83 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+const int NM=55;
+
+struct Data{
+	int r,c,lev;
+};
+
+int N,M;
+int dr[4]={1,-1,0,0};
+int dc[4]={0,0,1,-1};
+
+int a[NM][NM];
+int Map[NM][NM];
+int cnt=N*M-1;
+
+queue <Data> fire;
+queue <Data> w;
+
+void push(int r,int c,int lev){
+	if(r<0||r>=N||c<0||c>=M){
+		return;
+	}
+	else if(Map[r][c]<=lev){
+		return;
+	}
+	else if(a[r][c]=='S'){
+		return;
+	}
+	fire.push({r,c,lev});
+}
+
+void bfs1(){
+	int i;
+	Data tmp;
+	while(!fire.empty()){
+		tmp=fire.front();
+		fire.pop();
+		Map[tmp.r][tmp.c]=tmp.lev;
+		for(i=0;i<4;i++){
+			push(tmp.r+dr[i],tmp.c+dc[i],tmp.lev+1);
+		}
+	}/*
+	for(int i=0;i<N;i++){
+		for(int j=0;j<M;j++){
+			printf("%d ",Map[i][j]);
+		}
+		puts("");
+	}*/
+}
+void bfs2(){
+	
+	
+	
+}
+
+int main()
+{
+    scanf("%d %d",&N,&M);
+    for(int i=0;i<N;i++){
+		scanf("%s",a[i]);
+		for(int j=0;j<M;j++){
+			if(a[i][j]=='*'){
+				fire.push({i,j,1});
+				cnt--;
+			}
+			else if(a[i][j]=='D'){
+				w.push({i,j,1});
+				cnt--;
+			}
+		}
+    }
+    for(int i=0;i<N;i++){
+		printf("%s\n",a[i]);
+    }
+    bfs1();
+    bfs2();
+    
+    
+    return 0;
+}
