@@ -1,0 +1,75 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+const int N=1005;
+const int K=35;
+
+struct Data{
+	int idx,lev;
+};
+
+int n,k;
+char bincode[N][K];
+int s,e;
+int visit[N];
+int check[N][N]; // 해밍경로 관계에 있는지 체크
+int path[N][N];
+
+queue <Data> que;
+
+void Hammingcheck(){
+	int cnt;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+			if(i==j) continue;
+			cnt=0;
+			for(int l=0;l<k&&cnt<2;l++){
+				if(bincode[i][l]!=bincode[j][l]) cnt++;
+			}
+			if(cnt==1) check[i][j]=check[j][i]=1;
+		}
+	}
+}
+
+void push(int idx,int lev){
+
+}
+
+void bfs(){
+	memset(visit,0,sizeof(visit));
+	Data tmp;
+	while(!que.empty()){
+		tmp=que.front();
+		que.pop();
+		for(int i=0;i<n;i++){
+			if(visit[i]) continue;
+			if(check[tmp.idx][i]){
+				push(i,tmp.lev+1);
+				visit[i]=1;
+			}
+		}
+	}
+
+}
+
+int main()
+{
+    scanf("%d %d",&n,&k);
+    for(int i=0;i<n;i++){
+		scanf("%s",bincode[i]);
+    }
+    scanf("%d %d",&s,&e);
+    if(s>e){
+		s=s+e;
+		e=s-e;
+		s=s-e;
+    }
+    visit[s]=1;
+    que.push({s,0});
+    Hammingcheck();
+    bfs();
+
+
+    return 0;
+}
