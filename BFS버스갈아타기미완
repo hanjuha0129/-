@@ -1,0 +1,39 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+const int MN=1e5+5;
+const int K=5e3+5;
+
+int n,m,k;
+int sx,sy,dx,dy;
+struct Data{
+	int x1,y1,x2,y2;
+};
+Data bus[K];
+queue <pair<int,int>> que;
+
+void BFS(){
+	int b;
+	for(int i=1;i<=k;i++){
+		if(bus[i].x1<=sx&&bus[i].x2>=sx&&bus[i].y1<=sy&&bus[i].y2>=sy){
+			que.push({i,1});
+		}
+	}
+	
+}
+
+int main()
+{
+	int b;
+    scanf("%d %d",&m,&n);
+    scanf("%d",&k);
+    for(int i=0;i<k;i++){
+		scanf("%d",&b);
+		scanf("%d %d %d %d",&bus[b].x1,&bus[b].y1,&bus[b].x2,&bus[b].y2);
+    }
+	scanf("%d %d %d %d",&sx,&sy,&dx,&dy);
+	BFS();
+
+    return 0;
+}
