@@ -1,0 +1,58 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+const int MAX=1005;
+int n, k, st, ed;
+int A[MAX], path[MAX], used[MAX];
+char str[33];
+queue <int>que;
+
+void BFS(){
+	que.push(st);
+	used[st]=1;
+	while(!que.empty()){
+		int t=que.front();
+		que.pop();
+		if(t==ed){
+			return;
+		}
+		for(int i=1;i<=n;i++){
+			if(used[i]==0){
+				int x=A[t]^A[i];
+				if((x&(x-1))==0){
+					que.push(i);
+					path[i]=t;
+					used[i]=1;
+				}
+			}
+		}
+	}
+}
+
+void trace(int node){
+	if(node==0) return;
+	trace(path[node]);
+	printf("%d ",node);
+}
+
+int main(){
+	scanf("%d %d",&n,&k);
+	for(int i=1;i<=n;i++){
+		scanf("%s",str);
+		int d=0;
+		for(int j=0;j<k;j++){
+			d=d*2+str[j]-'0';
+		}
+		A[i]=d;
+	}
+	scanf("%d %d",&st,&ed);
+	BFS();
+	if(path[ed]==0){
+		puts("-1");
+	}
+	else{
+		trace(ed);
+	}
+
+	return 0;
+}
