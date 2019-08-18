@@ -1,0 +1,63 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+
+int table[10005];
+int st,ed;
+int visit[10005];
+int num[4];
+
+queue <pair<int,int>>que;
+
+void Era_prime(){
+	int i,j;
+	for(i=1000;i<10000;i++){
+		table[i]=i;
+	}
+	for(i=2;i<100;i++){
+		for(j=i*2;j<10000;j+=i){
+			table[j]=0;
+		}
+	}
+}
+
+void BFS(){
+	que.push({st,0});
+	visit[st]=1;
+	int m,k,x,cnt,i,j;
+
+	while(!que.empty()){
+		x=que.front().first,cnt=que.front().second;
+		que.pop();
+		if(x==ed){
+			printf("%d",cnt);
+			return;
+		}
+		m=1000;
+		for(i=0;i<4;i++){
+			num[i]=(x%(m*10))/m;
+			m/=10;
+		}
+		m=1000;
+		for(i=0;i<4;i++){
+			for(j=0;j<10;j++){
+				k=x+(j-num[i])*m;
+				if(!visit[k]&& table[k]){
+					que.push({k,cnt+1});
+					visit[k]=1;
+				}
+			}
+			m/=10;
+		}
+	}
+}
+
+int main()
+{
+	scanf("%d %d",&st,&ed);
+    Era_prime();
+    BFS();
+
+    return 0;
+}
