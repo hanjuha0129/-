@@ -1,0 +1,44 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+long long int d[45];
+int fix[45];
+
+
+int main()
+{
+    int n,m;
+    int tmp;
+    scanf("%d %d",&n,&m);
+    for(int i=1;i<=m;i++){
+        scanf("%d",&tmp);
+        fix[tmp]=1;
+    }
+    d[0]=1;
+    d[1]=1;
+    for(int i=2;i<=n;i++)
+    {
+        d[i]=d[i-1]+d[i-2];
+    }
+    long long int ans=1;
+    int idx=1;
+    for(int i=1;i<=n;){
+        if(fix[i]==0){
+            idx++;
+            i++;
+        }
+        else{
+            ans*=d[idx-1];
+            while(fix[i]){i++;}
+            idx=1;
+        }
+    }
+    if(idx!=0){
+        ans*=d[idx-1];
+    }
+    printf("%lld",ans);
+
+
+    return 0;
+}
