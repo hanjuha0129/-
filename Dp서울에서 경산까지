@@ -1,0 +1,39 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+const int N=105;
+const int K=1e5+5;
+int n,k;
+int wt[N],wm[N],bt[N],bm[N];
+int dt[N][K],vis[N][K];
+
+
+int main()
+{
+    scanf("%d %d",&n,&k);
+    for(int i=0;i<n;i++){
+        scanf("%d %d %d %d",&wt[i],&wm[i],&bt[i],&bm[i]);
+    }
+    vis[0][0]=1;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<=k;j++){
+            if(vis[i][j]==0) continue;
+            if(j+wt[i]<=k){
+                dt[i+1][j+wt[i]]=max(dt[i+1][j+wt[i]],dt[i][j]+wm[i]);
+                vis[i+1][j+wt[i]]=1;
+            }
+            if(j+bt[i]<=k){
+                dt[i+1][j+bt[i]]=max(dt[i+1][j+bt[i]],dt[i][j]+bm[i]);
+                vis[i+1][j+bt[i]]=1;
+            }
+        }
+    }
+    int Max=0;
+    for(int j=0;j<=k;j++){
+        Max=max(Max,dt[n][j]);
+    }
+    printf("%d",Max);
+
+    return 0;
+}
